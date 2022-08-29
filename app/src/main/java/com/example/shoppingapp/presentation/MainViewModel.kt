@@ -28,7 +28,6 @@ class MainViewModel: ViewModel() {
     fun editShopItem(shopItem: ShopItem){
         val newItem = shopItem.copy(enabled = !shopItem.enabled)
         editShopItemUseCase.editShopItem(newItem)
-
     }
 
 }
