@@ -1,13 +1,13 @@
 package com.example.shoppingapp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppingapp.R
-import com.example.shoppingapp.domain.ShopItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +24,16 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this){
             shopListAdapter.submitList(it)
+        }
+        val buttonAdditem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        buttonAdditem.setOnClickListener {
+            /* val intent = Intent(this, ShopItemActivity::class.java)
+            //далее в качестве параметра передаем режим работы экрана
+            intent.putExtra("extra_mode", "mode_add")
+            //запускаем активити
+            startActivity(intent) */
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
 
     }
@@ -86,6 +96,14 @@ class MainActivity : AppCompatActivity() {
     private fun onShopItemClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d("MainActivity", it.toString())
+            /* val intent = Intent(this, ShopItemActivity::class.java)
+            //далее в качестве параметра передаем режим работы экрана
+            intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
+            //запускаем активити
+            startActivity(intent) */
+            //Передаем переделанный вариант, в котором видно какие параметры нужно обязательно передать
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
